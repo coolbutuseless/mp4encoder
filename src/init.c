@@ -1,0 +1,29 @@
+
+// #define R_NO_REMAP
+#include <R.h>
+#include <Rinternals.h>
+
+extern SEXP array_to_macroblocks_(SEXP arr_, SEXP raw_vec_);
+extern SEXP nr_to_macroblocks_   (SEXP nr_ , SEXP raw_vec_);
+
+static const R_CallMethodDef CEntries[] = {
+  
+  {"array_to_macroblocks_", (DL_FUNC) &array_to_macroblocks_, 2},
+  {"nr_to_macroblocks_"   , (DL_FUNC) &nr_to_macroblocks_   , 2},
+  {NULL , NULL, 0}
+};
+
+
+void R_init_mp4encoder(DllInfo *info) {
+  R_registerRoutines(
+    info,      // DllInfo
+    NULL,      // .C
+    CEntries,  // .Call
+    NULL,      // Fortran
+    NULL       // External
+  );
+  R_useDynamicSymbols(info, FALSE);
+}
+
+
+

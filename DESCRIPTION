@@ -1,0 +1,27 @@
+Package: mp4encoder
+Type: Package
+Title: Create Uncompressed H264 Video Streams and MP4 Video Files
+Version: 0.1.0
+Authors@R: c(
+    person("Mike", "Cheng", role = c("aut", "cre", 'cph'), email = "mikefc@coolbutuseless.com")
+    )
+Maintainer: Mike Cheng <mikefc@coolbutuseless.com>
+URL: https://github.com/coolbutuseless/mp4encoder
+BugReports: https://github.com/coolbutuseless/mp4encoder/issues
+Description: A video encoder which creates standard 'H.264' encoded video in 
+    an 'mp4' container.  All encoding is done using base R, and no external 
+    encoding libraries are used - this allows the package to work on any 
+    R installation.  This package only supports uncompressed video
+    streams which are very fast to create but can be large in size.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Imports:
+  ctypesio (>= 0.1.2),
+  bitstreamio
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+Config/testthat/edition: 3
+VignetteBuilder: knitr

@@ -1,0 +1,104 @@
+---
+title: "mp4 encoding"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mp4 encoding}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Demo
+
+This is a small demo showing how `{mp4encoder}` can be called.
+
+The main steps:
+
+1. open an mp4
+2. generate an image as an array
+3. write the array into the mp4
+4. go to step 2 until done
+5. close the mp4
+
+
+```{r setup}
+library(mp4encoder)
+```
+
+## Writing an array as an mp4
+
+```{r eval=FALSE}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# For best results, the array dimensions should be a multiple of 16
+# otherwise padding (with black pixels) will be added to each frame
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+w <- 112 # 7 * 16
+h <-  80 # 5 * 16
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a Video Coding context
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vc <- mp4_open("working/test.mp4")
+
+coords <- expand.grid(y = seq(h)/h * 2 * pi - pi, x = seq(w)/w * 2 * pi - pi)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# as each frame is created, write it to the mp4
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+for (angle in seq(0, 2*pi, length.out = 30))  {
+  
+  # Create an array 
+  arr <- array(0, dim = c(h, w, 3))
+  arr[,,1] <- 0.5 * (sin(5 * coords$x + 0.3 * angle) + 1)
+  arr[,,2] <- 0.5 * (cos(3 * coords$y + 0.5 * angle) + 1)
+  arr[,,3] <- 0.5 * (sin(1.5 * coords$y + coords$x + 0.7 * angle) + 1)
+  
+  # Write the array into the mp4
+  mp4_write(vc, arr)
+}
+
+mp4_close(vc)
+```
+
+
+## Writing a matrix as an mp4
+
+
+```{r eval=FALSE}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# For best results, the array dimensions should be a multiple of 16
+# otherwise padding (with black pixels) will be added to each frame
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+w <- 112  # 7 * 16
+h <-  80  # 5 * 16
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a Video Coding context
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vc <- mp4_open("working/test.mp4")
+
+coords <- expand.grid(y = seq(h)/h * 2 * pi - pi, x = seq(w)/w * 2 * pi - pi)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# as each frame is created, write it to the mp4
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+for (angle in seq(0, 2*pi, length.out = 30))  {
+  
+  # Create an array 
+  mat <- matrix(0, h, w)
+  mat[] <- 0.5 * (sin(5 * coords$x + coords$y + 0.3 * angle) + 1)
+
+  # Write the matrix into the mp4
+  mp4_write(vc, mat)
+}
+
+mp4_close(vc)
+```
+
+
