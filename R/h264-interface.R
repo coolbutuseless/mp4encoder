@@ -90,7 +90,8 @@ h264_close <- function(vc) {
 #' Write a single frame into the h264
 #' 
 #' @inheritParams h264_open
-#' @param frame Image data. This may be: a native raster, a 3D numeric array 
+#' @param image Image data. Image dimensions \emph{must} be a multiple of 16.
+#'        This may be: a native raster, a 3D numeric array 
 #'        of RGB data, a 2D matrix of grey data. For array and matrix input, 
 #'        all numeric values must be in the
 #'        range [0, 1] with no NAs allowed.
@@ -101,9 +102,9 @@ h264_close <- function(vc) {
 #' h264_close(vc)
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-h264_write <- function(vc, frame) {
+h264_write <- function(vc, image) {
   stopifnot(inherits(vc, 'vc-annexb'))
-  write_slice(vc, frame)
+  write_slice(vc, image)
   invisible(vc)
 }
 

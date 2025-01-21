@@ -25,7 +25,7 @@ This package is different from other video encoders (such as
   [`{bitstreamio}`](https://cran.r-project.org/package=bitstreamio)
 - the `h264` encoding and muxing into an `mp4` file is done using R
 - it is reasonably fast as it uses a specific H264 option to encode
-  uncompressed images as the frames of the video.
+  *uncompressed* images as the frames of the video.
 
 ### Speed
 

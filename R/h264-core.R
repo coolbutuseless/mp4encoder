@@ -112,6 +112,27 @@ array_to_macroblocks_r <- function(vc, frame) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 write_slice <- function(vc, frame) {
   
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Sanity check we have an acceptable input of the correct size
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  width  <- ncol(frame)
+  height <- nrow(frame)
+  
+  if (width %% 16 != 0 || height %% 16 != 0) {
+    stop(
+      "'frame' dimensions must be multiples of 16.\n", 
+      "  Use 'pad_array()' to achieve this for arrays (Warning: this is slow).\n",
+      "  For native rasters, blit the image onto a suitably sized canvas.\n",
+      "  Resizing images is slow - aim to always generate images at the correct size"
+    )
+  }
+  
+  stopifnot(exprs = {
+    width  > 0
+    height > 0
+  })
+  
+  
   if (!inherits(frame, 'nativeRaster')) {
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -131,27 +152,10 @@ write_slice <- function(vc, frame) {
       length(dim(frame)) == 3
       dim(frame)[3] >= 3
     })
-    
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Pad the array dimensions if it isn't a multiple of 16
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    frame <- pad_array(frame)
-    
   }
   
   
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Sanity check we have an acceptable input of the correct size
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  width  <- ncol(frame)
-  height <- nrow(frame)
-  
-  stopifnot(exprs = {
-    width  > 0
-    height > 0
-    width  %% 16 == 0
-    height %% 16 == 0
-  })
+
   
   
     

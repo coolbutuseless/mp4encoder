@@ -146,11 +146,11 @@ mp4_close <- function(vc) {
 #' mp4_close(vc)
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-mp4_write <- function(vc, frame) {
+mp4_write <- function(vc, image) {
   stopifnot(inherits(vc, 'vc-avc'))
   
   # Track lengths of slices as this is needed for the MP4 'moov' atom
-  slice_length <- write_slice(vc, frame)
+  slice_length <- write_slice(vc, image)
   vc$slice_lengths <- c(vc$slice_lengths, slice_length)
 
   invisible(vc)

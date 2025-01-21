@@ -4,12 +4,13 @@
 \alias{h264_write}
 \title{Write a single frame into the h264}
 \usage{
-h264_write(vc, frame)
+h264_write(vc, image)
 }
 \arguments{
 \item{vc}{An h264 \emph{video context} object. Created using \code{mp4_open()}}
 
-\item{frame}{Image data. This may be: a native raster, a 3D numeric array 
+\item{image}{Image data. Image dimensions \emph{must} be a multiple of 16.
+This may be: a native raster, a 3D numeric array 
 of RGB data, a 2D matrix of grey data. For array and matrix input, 
 all numeric values must be in the
 range [0, 1] with no NAs allowed.}
