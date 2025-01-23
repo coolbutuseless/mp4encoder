@@ -46,6 +46,13 @@ For experts who want a raw h264 Annex B stream:
   - I.e. you will probably have to mux the stream into a container in
     order to play it back.
 
+Accepted image types
+
+- Numeric RGB arrays with all values in range \[0, 1\] (no NAs allowed)
+- Native raster objects
+- Images must have dimensions which are multiples of 16
+  - Use `pad_array()` to resize arrays
+
 ## Installation
 
 <!-- This package can be installed from CRAN -->
@@ -80,8 +87,9 @@ remotes::install_github('coolbutuseless/mp4encoder')
 library(mp4encoder)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# For best results, the array dimensions should be a multiple of 16
-# otherwise padding (with black pixels) will be added to each frame
+# The array dimensions must be multiple of 16
+# Use `pad_array()` if your array isn't of the correct size, but for 
+# best performance create the array with a correct size from the start
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 w <- 112  # 7 * 16
 h <-  80  # 5 * 16
@@ -120,6 +128,11 @@ Matrix will be treated as a monochrome image
 ``` r
 library(mp4encoder)
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# The array dimensions must be multiple of 16
+# Use `pad_array()` if your array isn't of the correct size, but for 
+# best performance create the array with a correct size from the start
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 w <- 112  # 7 * 16
 h <-  80  # 5 * 16
 
@@ -168,7 +181,9 @@ logo <- readPNG(system.file("img", "Rlogo.png", package="png"), native = TRUE)
 vc <- mp4_open("man/figures/test-nara.mp4", fps = 30)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# For best performance, width/height of image should be a multiple of 16
+# The array dimensions must be multiple of 16
+# Use `pad_array()` if your array isn't of the correct size, but for 
+# best performance create the array with a correct size from the start
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 w <- (8 * 16) 
 h <- (6 * 16) 
@@ -198,7 +213,7 @@ can be used to capture plots as native rasters (or arrays).
 
 `{mp4encoder}` is purely a mp4 writer, so it does not do any automatic
 interpolation like
-[`{gganimate}`](https://cran.r-project.org/package=gganimate) dose.
+[`{gganimate}`](https://cran.r-project.org/package=gganimate) does.
 
 ``` r
 library(ggplot2)

@@ -330,11 +330,11 @@ create_mp4_footer <- function(vc) {
   # mdhd langague = padding_bit + 3 * 5 bit integers = 2 bytes
   # 3 letter language code is: ISO-639-2/T language code
   lang <- "und" |> utf8ToInt()
-  lang <- lang - 0x60 # lang bytes are offset
-  bs <- bitstreamio::bs_open(raw(), 'w')
-  bs_write_bit(bs, FALSE) # padding
-  bs_write_uint(bs, lang, 5) # 3 x 5-bit integers
-  lang <- bs_close(bs)
+  lang <- lang - 0x60 # lang bytes are relative to 0x60
+  lang <- bs_open(raw(), 'w')          |> 
+    bs_write_bit(x = FALSE)            |> # padding
+    bs_write_uint(x = lang, nbits = 5) |> # 3 x 5-bit integers
+    bs_close()
   
   
   
@@ -430,12 +430,12 @@ create_mp4_footer <- function(vc) {
   # avcC - AVCDecoderConfigurationRecord
   # ISO 14496-15
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  bs <- bitstreamio::bs_open(raw(), mode = 'w')
-  bs_write_bit(bs, c(T, T, T, T, T, T)) # '111111' reserved
-  bs_write_uint(bs, 3, nbits = 2)       # lengthSizeMinusOne = 4 - 1 = 3
-  bs_write_bit(bs, c(T, T, T))          # '111' reserved
-  bs_write_uint(bs, 1, nbits = 5)       # numofSequenceParamterSets
-  avcC_bits1 <- bs_close(bs)
+  avcC_bits1 <- bs_open(raw(), mode = 'w') |>
+    bs_write_bit(x = c(T, T, T, T, T, T))  |>  # '111111' reserved
+    bs_write_uint(x = 3, nbits = 2)        |>  # lengthSizeMinusOne = 4 - 1 = 3
+    bs_write_bit(x = c(T, T, T))           |>  # '111' reserved
+    bs_write_uint(x = 1, nbits = 5)        |>  # numofSequenceParamterSets
+    bs_close()
   
   avcC <- raw() |>
     set_endian('big')     |>

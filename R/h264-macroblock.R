@@ -18,11 +18,10 @@ macroblock_header_reference <- as.raw(c(0x0d, 0x00 ))
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 create_macroblock_header <- function() {
   
-  bs  <- bitstreamio::bs_open(raw(), 'w')
+  raw_vec  <- bs_open(raw(), 'w')    |>
+    bs_write_uint_exp_golomb(x = 25)   |>  # ue(v) mb_type.  25 = I_PCM
+    bs_align(nbits = 8, value = FALSE) |>
+    bs_close()
   
-  bitstreamio::bs_write_uint_exp_golomb(bs, 25) # ue(v) mb_type.  25 = I_PCM
-  bitstreamio::bs_align(bs, nbits = 8, value = FALSE)
-  
-  raw_vec <- bitstreamio::bs_close(bs)
   raw_vec
 }

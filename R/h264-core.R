@@ -188,10 +188,10 @@ write_slice <- function(vc, frame) {
     } else {
       sps_prefix <- raw() |>
         set_endian('big') |>
-        ctypesio::write_uint32(length(vc$sps_header))
+        write_uint32(length(vc$sps_header))
       pps_prefix <- raw() |>
         set_endian('big') |>
-        ctypesio::write_uint32(length(vc$pps_header))
+        write_uint32(length(vc$pps_header))
     } 
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
