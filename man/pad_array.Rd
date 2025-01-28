@@ -2,12 +2,18 @@
 % Please edit documentation in R/utils.R
 \name{pad_array}
 \alias{pad_array}
+\alias{pad_array2}
 \title{Pad an array so width and height are a multiple of 16}
 \usage{
 pad_array(arr)
+
+pad_array2(arr, dst = NULL)
 }
 \arguments{
 \item{arr}{numeric 3d array}
+
+\item{dst}{dst array of the correct size. Or NULL (the default) which will 
+allocate a new array}
 }
 \value{
 either a new 3d array with the correct dimensions, or return the provided

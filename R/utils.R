@@ -7,6 +7,8 @@
 #' always aim to generate images with dimensions which are multiples of 16.
 #' 
 #' @param arr numeric 3d array
+#' @param dst dst array of the correct size. Or NULL (the default) which will 
+#'        allocate a new array
 #' @return either a new 3d array with the correct dimensions, or return the provided
 #'         array if it was already correctly sized
 #' @examples         
@@ -46,4 +48,10 @@ pad_array <- function(arr){
 }
 
 
+
+#' @rdname pad_array
+#' @export
+pad_array2 <- function(arr, dst = NULL) {
+  .Call(pad_array_, arr, dst)
+}
 

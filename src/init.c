@@ -5,11 +5,14 @@
 
 extern SEXP array_to_macroblocks_(SEXP arr_, SEXP raw_vec_);
 extern SEXP nr_to_macroblocks_   (SEXP nr_ , SEXP raw_vec_);
+extern SEXP pad_array_(SEXP arr_, SEXP dst_);
 
 static const R_CallMethodDef CEntries[] = {
   
   {"array_to_macroblocks_", (DL_FUNC) &array_to_macroblocks_, 2},
   {"nr_to_macroblocks_"   , (DL_FUNC) &nr_to_macroblocks_   , 2},
+  
+  {"pad_array_"   , (DL_FUNC) &pad_array_   , 2},
   {NULL , NULL, 0}
 };
 
