@@ -55,3 +55,13 @@ pad_array2 <- function(arr, dst = NULL) {
   .Call(pad_array_, arr, dst)
 }
 
+
+
+if (FALSE) {
+  
+  a <- array(88, c(10, 10, 3))
+  pad_array2(a)
+  
+  
+  
+}
