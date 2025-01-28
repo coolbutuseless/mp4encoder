@@ -13,7 +13,7 @@ test_that("pad_array() R agrees with C", {
   a <- array(88, c(10, 10, 3))
   
   expect_identical(
-    pad_array (a),
-    pad_array2(a)
+    pad_array  (a),
+    pad_array_r(a)
   )
 })

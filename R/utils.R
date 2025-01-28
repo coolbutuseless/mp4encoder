@@ -18,7 +18,16 @@
 #' dim(arr)         
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-pad_array <- function(arr){
+pad_array <- function(arr, dst = NULL) {
+  .Call(pad_array_, arr, dst)
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Old R version of padding an array. 
+# C version (with 'dst' provided) is 70x faster
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pad_array_r <- function(arr){
   
   stopifnot(exprs = {
     is.array(arr)
@@ -47,21 +56,3 @@ pad_array <- function(arr){
   new
 }
 
-
-
-#' @rdname pad_array
-#' @export
-pad_array2 <- function(arr, dst = NULL) {
-  .Call(pad_array_, arr, dst)
-}
-
-
-
-if (FALSE) {
-  
-  a <- array(88, c(10, 10, 3))
-  pad_array2(a)
-  
-  
-  
-}
