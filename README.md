@@ -51,7 +51,8 @@ Accepted image types
 - Numeric RGB arrays with all values in range \[0, 1\] (no NAs allowed)
 - Native raster objects
 - Images must have dimensions which are multiples of 16
-  - Use `pad_array()` to resize arrays
+  - Use `pad_array()` or `pad_nr()` to resize arrays and native rasters,
+    respectively
 
 ## Installation
 
@@ -282,7 +283,7 @@ mp4s to gifs for display.
   - A major take-away from this blog post is that it is possible to
     produce H264s *without* doing any compression!
   - This means that after color conversion (RGB to YCbCr) the raw pixel
-    data is written to file without and compression or predictive
+    data is written to file without any compression or predictive
     coding.
 - ISO 14496-10 Advanced Video Codec
 - ISO 14496-12 ISO Base Media Format
