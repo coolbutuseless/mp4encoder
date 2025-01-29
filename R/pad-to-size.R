@@ -1,17 +1,20 @@
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Pad an array so width and height are a multiple of 16
+#' Pad an array or native raster so width and height are a multiple of 16
 #' 
 #' Note: For maximum encoding speed, the user should
 #' always aim to generate images with dimensions which are multiples of 16.
 #' 
-#' @param arr numeric 3d array
+#' @param x array or native raster
 #' @param hjust,vjust justification of array within expanded area. Default: (0.5, 0.5)
 #'        to centre the array
-#' @param dst dst array of the correct size. Or NULL (the default) which will 
-#'        allocate a new array
-#' @return either a new 3d array with the correct dimensions, or return the provided
+#' @param dst dst array or native raster of the correct size. Or NULL (the default) which will 
+#'        allocate a new object
+#' @param fill background fill colour. For arrays, specify a 3-element RGB numeric 
+#'        vector with values in the range [0, 1].  For native rasters, specify 
+#'        an integer colour. Default: -16777216 (black).  See \code{colorfast::col_to_int()}
+#' @return either a new 3d array or raster with the correct dimensions, or return the provided
 #'         array if it was already correctly sized
 #' @examples         
 #' arr <- array(1, c(8, 32, 3))         
@@ -20,9 +23,18 @@
 #' dim(arr)         
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-pad_array <- function(arr, hjust = 0.5, vjust = 0.5, dst = NULL) {
-  .Call(pad_array_, arr, hjust, vjust, dst)
+pad_array <- function(x, hjust = 0.5, vjust = 0.5, fill = c(0, 0, 0), dst = NULL) {
+  .Call(pad_array_, x, hjust, vjust, fill, dst)
 }
+
+
+#' @rdname pad_array
+#' @export
+pad_nr <- function(x, hjust = 0.5, vjust = 0.5, fill = -16777216, dst = NULL) {
+  .Call(pad_nr_, x, hjust, vjust, fill, dst)
+}
+
+
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,9 +72,19 @@ pad_array_r <- function(arr){
 
 
 if (FALSE) {
-  src <- array(as.numeric(1:36), c(4, 3, 3))
+  src <- array(0, c(300, 300, 3))
   src
-  pad_array(src, hjust = 1, vjust = 10)
+  pad_array(src, hjust = 1, vjust = 10, fill = c(1, 2, 3)) |> bench::mark()
+
+  library(nara)
+  nr  <- nr_new(300, 300, fill = 'hotpink')
+  dst <- nr_new(304, 304, fill = 'hotpink')
+  nr_circle(nr, 5, 5, 30)
+  plot(nr)  
+  
+  pad_nr(nr, hjust = 1, vjust = 1, fill = colorfast::col_to_int('red'), dst = dst) |> bench::mark()
+  
+  
 }
 
 
