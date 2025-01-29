@@ -4,10 +4,13 @@
 \alias{pad_array}
 \title{Pad an array so width and height are a multiple of 16}
 \usage{
-pad_array(arr, dst = NULL)
+pad_array(arr, hjust = 0.5, vjust = 0.5, dst = NULL)
 }
 \arguments{
 \item{arr}{numeric 3d array}
+
+\item{hjust, vjust}{justification of array within expanded area. Default: (0.5, 0.5)
+to centre the array}
 
 \item{dst}{dst array of the correct size. Or NULL (the default) which will 
 allocate a new array}
@@ -17,7 +20,7 @@ either a new 3d array with the correct dimensions, or return the provided
         array if it was already correctly sized
 }
 \description{
-Note: Resizing an array is slow.  For maximum encoding speed, the user should
+Note: For maximum encoding speed, the user should
 always aim to generate images with dimensions which are multiples of 16.
 }
 \examples{

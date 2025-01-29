@@ -3,10 +3,12 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Pad an array so width and height are a multiple of 16
 #' 
-#' Note: Resizing an array is slow.  For maximum encoding speed, the user should
+#' Note: For maximum encoding speed, the user should
 #' always aim to generate images with dimensions which are multiples of 16.
 #' 
 #' @param arr numeric 3d array
+#' @param hjust,vjust justification of array within expanded area. Default: (0.5, 0.5)
+#'        to centre the array
 #' @param dst dst array of the correct size. Or NULL (the default) which will 
 #'        allocate a new array
 #' @return either a new 3d array with the correct dimensions, or return the provided
@@ -18,8 +20,8 @@
 #' dim(arr)         
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-pad_array <- function(arr, dst = NULL) {
-  .Call(pad_array_, arr, dst)
+pad_array <- function(arr, hjust = 0.5, vjust = 0.5, dst = NULL) {
+  .Call(pad_array_, arr, hjust, vjust, dst)
 }
 
 
@@ -55,4 +57,13 @@ pad_array_r <- function(arr){
   
   new
 }
+
+
+if (FALSE) {
+  src <- array(as.numeric(1:36), c(4, 3, 3))
+  src
+  pad_array(src, hjust = 1, vjust = 10)
+}
+
+
 

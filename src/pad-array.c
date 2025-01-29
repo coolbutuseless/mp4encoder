@@ -26,7 +26,7 @@ int round_up(int val) {
 // Pad an array with zeros such that its height and width are multiples
 // of the macroblock size (i.e. 16)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SEXP pad_array_(SEXP src_, SEXP dst_) {
+SEXP pad_array_(SEXP src_, SEXP hjust_, SEXP vjust_, SEXP dst_) {
   int nprotect = 0;
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,6 +44,18 @@ SEXP pad_array_(SEXP src_, SEXP dst_) {
   if (Rf_length(dims_) != 3 || INTEGER(dims_)[2] < 3) {
     Rf_error("'arr' must be 3d array with at least 3 planes");
   }
+  
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Justification
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  double hjust = Rf_asReal(hjust_);
+  double vjust = Rf_asReal(vjust_);
+  
+  hjust = hjust < 0 ? 0 : hjust;
+  hjust = hjust > 1 ? 1 : hjust;
+  vjust = vjust < 0 ? 0 : vjust;
+  vjust = vjust > 1 ? 1 : vjust;
+  
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // What are the rounded up dimensions for this array?
@@ -91,17 +103,17 @@ SEXP pad_array_(SEXP src_, SEXP dst_) {
   memset(REAL(dst_), 0, h_dst * w_dst * 3 * sizeof(double));
   
   // For each plane in 1:3
-  //   For each row in original
-  //      memcpy() a width worth of pixels into new
-  size_t row_offset = floor(0.5 * (h_dst - h_src));
-  size_t col_offset = floor(0.5 * (w_dst - w_src));
+  //   For each col in original
+  //      memcpy() a 'height' worth of pixels into new
+  size_t row_offset = floor(vjust * (h_dst - h_src));
+  size_t col_offset = floor(hjust * (w_dst - w_src));
   
   for (int plane = 0; plane < 3; ++plane) {
     double *src = REAL(src_) + plane * (h_src * w_src);
     double *dst = REAL(dst_) + plane * (h_dst * w_dst);
     
-    for (int row = 0; row < h_src; ++row) {
-      memcpy(dst + (row_offset + row) * w_dst + col_offset, src + row * w_src, w_src * sizeof(double));
+    for (int col = 0; col < w_src; ++col) {
+      memcpy(dst + (col_offset + col) * h_dst + row_offset, src + col * h_src, h_src * sizeof(double));
     }
   }
   
