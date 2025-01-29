@@ -1,19 +1,19 @@
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Pad an array or native raster so width and height are a multiple of 16
+#' Pad an array or native raster so width and height are multiples of 16
 #' 
 #' Note: For maximum encoding speed, the user should
 #' always aim to generate images with dimensions which are multiples of 16.
 #' 
 #' @param x array or native raster
 #' @param hjust,vjust justification of array within expanded area. Default: (0.5, 0.5)
-#'        to centre the array
-#' @param dst dst array or native raster of the correct size. Or NULL (the default) which will 
-#'        allocate a new object
-#' @param fill background fill colour. For arrays, specify a 3-element RGB numeric 
+#'        to center the array
+#' @param dst a pre-allocated destiation array or native raster of the correct size. 
+#'        Or NULL (the default) which will allocate a new object to hold the result.
+#' @param fill background fill color. For arrays, specify a 3-element RGB numeric 
 #'        vector with values in the range [0, 1].  For native rasters, specify 
-#'        an integer colour. Default: -16777216 (black).  See \code{colorfast::col_to_int()}
+#'        an integer color. Default: -16777216 (black).  See \code{colorfast::col_to_int()}
 #' @return either a new 3d array or raster with the correct dimensions, or return the provided
 #'         array if it was already correctly sized
 #' @examples         
