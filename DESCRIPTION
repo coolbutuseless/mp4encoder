@@ -15,7 +15,6 @@ Description: A video encoder which creates standard 'H.264' encoded video in
     streams which are very fast to create but can be large in size.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.3.2
 Imports:
   ctypesio (>= 0.1.2),
   bitstreamio
@@ -25,3 +24,6 @@ Suggests:
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0
+Depends: 
+    R (>= 4.1.0)

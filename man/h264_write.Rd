@@ -22,7 +22,7 @@ range [0, 1] with no NAs allowed.}
 Write a single frame into the h264
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 vc <- h264_open()
 h264_write(vc, frame)
 h264_close(vc)

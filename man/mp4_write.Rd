@@ -22,7 +22,7 @@ range [0, 1] with no NAs allowed.}
 Write a single frame into the mp4
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 vc <- mp4_open()
 mp4_write(vc, frame)
 mp4_close(vc)

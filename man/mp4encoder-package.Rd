@@ -19,5 +19,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Mike Cheng \email{mikefc@coolbutuseless.com} [copyright holder]
 
+Authors:
+\itemize{
+  \item Mike Cheng \email{mikefc@coolbutuseless.com} [copyright holder]
+}
+
 }
 \keyword{internal}

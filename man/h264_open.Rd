@@ -24,7 +24,7 @@ h264_close(vc)
 Initialise an h264 Annex B encoder
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 vc <- h264_open(tempfile())
 \dontshow{\}) # examplesIf}
 }

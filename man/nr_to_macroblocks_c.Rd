@@ -18,7 +18,7 @@ list of Y Cb Cr components at 4:2:0 subsampling
 Conversion from RGB to YCbCr in C
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 array_to_ycbcr(arr)
 \dontshow{\}) # examplesIf}
 }
